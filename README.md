@@ -1,7 +1,10 @@
 # Projet Site Amélie
 
 ## Description
-Suite du projet de base de données Amélie.  
+
+Ce projet est la continuité du premier travail sur la base de données *Amélie*.  
+Après avoir conçu la base et inséré les données, l’objectif est ici de **présenter ces données via un site web** avec des interfaces utilisateur.
+
 Ce dépôt contient :  
 - `site-amelie.zip` : le projet complet compressé  
 - `Rapport.pdf` : le rapport détaillant le projet et son fonctionnement  
