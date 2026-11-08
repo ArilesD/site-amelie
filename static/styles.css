@@ -1,0 +1,709 @@
+/* Couleurs principales */
+:root {
+    --background-color: #f1f6ff;
+    --text-color: #333333; /* Texte sombre */
+    --primary-color: #5cb85c; /* Vert santé pour les boutons et liens */
+    --secondary-color: #5bc0de; /* Bleu clair pour les accents */
+    --card-background: #f8f9fa; /* Fond des containers légèrement gris */
+    --hover-background: #e9ecef; /* Fond au survol, gris clair */
+    --border-color: #ced4da; /* Bordures grises douces */
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/static/fonts/SF-Pro-Display-Regular.woff2') format('woff2'),
+         url('/static/fonts/SF-Pro-Display-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Corps de la page */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'SF Pro', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* En-tête */
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+/* Bouton shine */
+.btn-shine {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 12px 48px;
+    color: var(--primary-color); 
+    background: linear-gradient(to right, #333 0%, var(--primary-color) 50%,    #333 100%);
+    background-size: 200% auto;
+    background-position: 0%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite; /* Ajout de 'infinite' pour une boucle infinie */
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 200% 0%;
+    }
+    50% {
+        background-position: 50% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+/* Barre de navigation */
+.nav-bar ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nav-bar li {
+    display: inline-block;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: var(--text-color); 
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-bar a:hover {
+    background-color: var(--hover-background); 
+    color: var(--primary-color);
+}
+
+/* Section principale */
+main {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+ 
+main h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Containers */
+.container {
+    max-width: 1200px;
+    margin: 20px auto; /* Centrer horizontalement */
+    padding: 20px;
+    
+    border-radius: 8px; /* Coins arrondis */
+    display: flex;
+    flex-wrap: wrap; /* Permet aux colonnes de passer en mode empilé sur petits écrans */
+    gap: 20px; /* Ajoute de l'espace entre les colonnes */
+    justify-content: center; /* Centre les colonnes horizontalement */
+    
+}
+
+.container h1 {
+    font-size: 28px;
+    color: var(--text-color); 
+    text-align: center; 
+    margin-bottom: 20px;
+    text-transform: uppercase; 
+    letter-spacing: 1.2px; 
+}
+
+/* Liste des prescriptions */
+.container ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: decimal;
+    list-style-position: inside; 
+}
+
+.container ol li {
+    font-size: 18px;
+    margin: 10px 0;
+    line-height: 1.6; 
+    color: var(--text-color); 
+}
+
+/* Lien de retour */
+.container a {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: var(--primary-color); 
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.container a:hover {
+    background-color: var(--secondary-color); 
+}
+.clickable-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+.card {
+    width: 400px;
+    height: 200px;
+    border: 5px solid #ccc;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    border: 5px solid var(--primary-color);
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-content h2 {
+    font-size: 1.5em;
+    margin: 0 0 10px;
+}
+
+.card-content p {
+    font-size: 1em;
+    color: #666;
+}
+/* Formulaires */
+form {
+    display: flex;
+    text-align: center;
+    margin-left:30px;
+}
+
+form label {
+    font-size: 18px;
+    color: var(--text-color);
+    margin-top: 20px;
+    margin-right: 20px;
+    display: block;
+
+}
+form label[for="annee_max"] {
+    margin-left: 30px; /* Décale le label Année maximum vers la droite */
+}
+form label[for="search"] {
+    margin-left: 30px; /* Décale le label Année maximum vers la droite */
+}
+
+form select {
+    width: 60%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    margin-top: 10px;
+}
+select:hover {
+    border-color: green; /* Change la bordure au survol */
+    
+}
+th a:hover {
+    color: var(--secondary-color); /* Applique la couleur secondaire quand le lien est actif */
+    font-weight: bold; /* Pour accentuer le lien actif */
+}
+
+
+form button {
+    display: flex;
+    margin-left:20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+
+}
+
+form button:hover {
+    background-color: var(--secondary-color);
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-background);
+    transition: border-color 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Style au survol */
+input:hover {
+    border-color: var(--primary-color);
+}
+
+/* Style lorsqu'il est sélectionné */
+input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+/* Style pour les états invalides */
+input:invalid {
+    border-color: var(--primary-color); /* Bordure verte pour les états invalides */
+}
+
+/* Style pour les états désactivés */
+input:disabled {
+    background-color: var(--hover-background);
+    color: #999;
+    cursor: not-allowed;
+}
+
+
+/* Checkbox personnalisée */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '\2713';
+    color: var(--text-color);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+
+
+
+.error-message{
+    color: var(--text-color); font-weight: bold; margin-top: 20px;
+} 
+
+.container1 {
+    display: flex;
+    left:40px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+    border:none;
+}
+
+.container1 h1 {
+    margin-bottom: 20px; /* Space between the title and the image */
+}
+
+.container1 img {
+    max-width: 100%;
+    height: auto;
+    padding: 20px;
+    border: 2px solid #ccc; /* Optional: add a border around the image */
+    border-radius: 8px; /* Optional: rounded corners */
+    border:none;
+    margin-left:-200px;
+}
+svg.map {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+svg path {
+    fill: #4fb378;
+    stroke:#001907;
+    stroke-width:0.5;
+    transition:0.6s;
+}
+
+svg path:hover{
+    fill:#347750;
+    transition:0.6s;
+    cursor:pointer;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px; /* Ajuste l'espace interne des cellules */
+    text-align: center; /* Centre le texte pour une meilleure lisibilité */
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+th a {
+    color: var(--primary-color);
+} 
+tr:hover {
+    background-color: var(--hover-background);
+}
+
+.retour {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.retour:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.retour-container {
+    text-align: center; /* Centre horizontalement le bouton */
+    margin-top: 20px; /* Espacement supérieur */
+    margin-bottom: 50px; /* Espacement inférieur */
+}
+
+
+.selection-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px; /* Augmente l'écart entre les colonnes */
+    margin-bottom: 30px; /* Plus de marge en bas */
+}
+
+.professions-select {
+    flex: 1;
+    max-width: 45%;
+    padding: 20px;
+    border-radius: 8px;
+    
+}
+
+.professions-select h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.control-button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.control-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.unselect {
+    background-color: var(--hover-background);
+}
+
+.material-checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+    margin:10px;
+  }
+  
+  .material-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .checkmark {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    border: 2px solid  var(--primary-color);
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .material-checkbox input[type="checkbox"]:checked ~ .checkmark {
+    background-color:  var(--primary-color);
+    border-color:  var(--primary-color);
+  }
+  
+  .material-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 4px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  .material-checkbox input[type="checkbox"]:focus ~ .checkmark {
+    box-shadow: 0 0 0 2px  var(--primary-color);
+  }
+  
+  .material-checkbox:hover input[type="checkbox"] ~ .checkmark {
+    border-color: #C3CF34;
+  }
+  
+  .material-checkbox input[type="checkbox"]:disabled ~ .checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .material-checkbox input[type="checkbox"]:disabled ~ .checkmark:hover {
+    border-color: #4d4d4d;
+  }
+  
+.results-container {
+    flex: 1;
+    max-width: 50%;
+}
+
+.results-container table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    
+}
+
+.no-data {
+    color: var(--text-color);
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+/* Colonne des professions */
+.professions-column {
+    flex: 1;
+    min-width: 300px; /* Largeur minimale pour garantir la lisibilité */
+    max-width: 400px; /* Largeur maximale pour éviter un trop grand espace */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Mise en forme des labels et checkboxes */
+.professions-column label {
+    display: block;
+    margin-bottom: 10px; /* Espace entre chaque option */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px; /* Éloigne la checkbox du texte */
+}
+
+/* Colonne du tableau */
+.table-column {
+    flex: 2; /* Donne plus d'espace à la colonne du tableau */
+    min-width: 500px; /* Largeur minimale pour assurer une bonne lisibilité */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+/* Mise en forme du tableau */
+.table-column table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Ajoute un espace entre le texte ou les titres et le tableau */
+}
+
+.table-column th, .table-column td {
+    padding: 15px 15px; /* Espacement interne dans les cellules */
+    text-align: left;
+    border: 1px solid #ddd; /* Bordure légère pour délimiter les cellules */
+}
+
+.table-column th {
+    background-color: #f4f4f4; /* Fond gris clair pour les en-têtes */
+    font-weight: bold;
+}
+
+.table-column tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternance des couleurs pour améliorer la lisibilité */
+}
+
+
+/* Réinitialisation des styles pour #a-apropos */
+.apropos-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.intro p {
+    text-align: left; /* Aligne le texte à gauche */
+    line-height: 1.6; /* Améliore la lisibilité */
+}
+
+.intro h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-align: left; /* Aligne le titre à gauche */
+}
+
+.technologies h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+#a-apropos {
+    display: inline;
+    margin-top: 0;
+    text-decoration: underline;
+    background-color: transparent;
+    color: var(--primary-color);
+ 
+    padding-bottom:90px;
+    border-radius: 0;
+    text-align: left;
+    transition: none;
+}
+
+.tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    
+}
+
+
+.tech-list a span {
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tech-list span:hover {
+    background-color: var(--hover-background); 
+    color: var(--primary-color);
+    transform: scale(1.1);
+  
+}
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+.technologies {
+    margin-bottom: 40px; /* Ajuste cette valeur selon l'espacement souhaité */
+    
+}
+.utilisation ol {
+    padding-left: 20px; /* Décale la liste un peu à droite */
+    margin: 20px 0; /* Ajoute un espace autour de la liste */
+}
+
+.utilisation ol li {
+    font-size: 1.1rem; /* Taille légèrement plus grande */
+    color: var(--text-color); /* Couleur principale du texte */
+    margin-bottom: 15px; /* Ajoute de l'espace entre chaque élément */
+    line-height: 1.8; /* Améliore la lisibilité */
+    padding-left: 30px; /* Ajoute un espace pour les puces personnalisées */
+    position: relative; /* Nécessaire pour le pseudo-élément */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 15px; /* Ajoute du padding interne */
+    
+}
+
+.utilisation ol li::before {
+    
+    position: absolute;
+    left: 5px;
+    color: var(--primary-color);
+}
+
+.utilisation {
+    text-align: left;
+}

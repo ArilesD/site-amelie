@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Assurance Maladie - Consultation et Analyse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+</head>
+<body>
+    <header>
+        <!-- Section de navigation -->
+        <div class="header">
+            <nav class="nav-bar">
+                <ul>
+                    <!-- Lien vers la page d'accueil -->
+                    <li><a href="{{ url_for('accueil') }}">Accueil</a></li>
+                    <!-- Lien vers la page "A propos" -->
+                    <li><a href="{{ url_for('apropos') }}">A propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container1">
+        <!-- Formulaire pour sélectionner une année -->
+        <form method="POST" action="{{ url_for('histogramme_prescription') }}">
+            <label for="annee">Sélectionnez une année :</label>
+            <!-- Champ pour entrer l'année -->
+            <input type="number" id="annee" name="annee" value="{{ annee }}" min="2010" max="2025">
+            <!-- Bouton pour soumettre le formulaire -->
+            <button type="submit">Afficher le graphique</button>
+        </form>
+        
+        {% if annee %}
+            <!-- Affiche l'année sélectionnée si elle est définie -->
+            <h1>Année sélectionnée: {{ annee }}</h1>
+        {% endif %}
+        
+        <!-- Affiche l'image de l'histogramme -->
+        <img id="histo" src="{{ histogram_image }}" alt="Histogramme des Notes">
+    </div>
+    
+</body>
+</html>

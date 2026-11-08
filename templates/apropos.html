@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>A propos</title>
+    <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+</head>
+<body>
+    <!-- En-tête de la page -->
+    <header>
+        <div class="header">
+            <!-- Barre de navigation -->
+            <nav class="nav-bar">
+                <ul>
+                    <!-- Lien vers la page d'accueil -->
+                    <li><a href="{{ url_for('accueil') }}">Accueil</a></li>
+                    <!-- Lien vers la page "À propos" -->
+                    <li><a href="{{ url_for('apropos') }}">A propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Contenu principal de la page -->
+    <main class="apropos-container">
+        <!-- Section d'introduction -->
+        <section class="intro">
+            <h1>À propos</h1>
+            <p>
+                Bienvenue sur notre application web dédiée à l'analyse et à la visualisation des données de santé publique issues de 
+                <a id="a-apropos" href="https://data.ameli.fr/pages/home/">data.ameli.fr</a>. Notre objectif est de rendre ces données accessibles et compréhensibles pour tous.
+            </p>
+        </section>
+        
+        <!-- Section des technologies utilisées -->
+        <section class="technologies">
+            <h2>Fonctionnalités principales</h2>
+            <div class="tech-list">
+                <!-- Liens vers les technologies utilisées -->
+                <a href="https://www.python.org/" target="_blank" title="Site officiel de Python"><span>Python</span></a>
+                <a href="https://flask.palletsprojects.com/" target="_blank" title="Documentation de Flask"><span>Flask</span></a>
+                <a href="https://pandas.pydata.org/" target="_blank" title="Documentation de Pandas"><span>Pandas</span></a>
+                <a href="https://matplotlib.org/" target="_blank" title="Documentation de Matplotlib"><span>Matplotlib</span></a>
+                <a href="https://developer.mozilla.org/fr/docs/Web/HTML" target="_blank" title="Guide HTML"><span>HTML/CSS</span></a>
+                <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript" target="_blank" title="Guide JavaScript"><span>JavaScript</span></a>
+            </div>
+        </section>
+        
+        <!-- Section expliquant l'utilisation de l'application -->
+        <section class="utilisation">
+            <h2>Comment utiliser l'application</h2>
+            <ol>
+                <!-- Étapes pour utiliser l'application -->
+                <li>L'application se connecte à une base de données SQLite3 locale. Veillez à ce que cette base soit correctement configurée et contienne toutes les données nécessaires pour son bon fonctionnement.</li>
+                <li>La visualisation du contenu des tables s'effectue à l'aide de requêtes SQLite exécutées via Pandas, permettant de récupérer et d'afficher les données des tables.</li>
+                <li>Sélectionner des données : Utiliser la technique des jointures SQL.</li>
+                <li>Visualisation des données : Visualisez et analysez les données de différentes tables en utilisant des formulaires ou encore une carte interactive.</li>
+                <li>Représentations graphiques : Consultez un histogramme des données ou un diagramme circulaire via Matplotlib pour une représentation visuelle des données.</li>
+            </ol>
+        </section>
+    </main>
+</body>
+
+</html>

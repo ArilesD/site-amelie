@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professions par Région</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Titre principal affichant le nom de la région -->
+        <h1>Professions dans la région {{ region_name }}</h1>
+        
+        <div class="selection-container">
+            <!-- Section pour sélectionner les professions -->
+            <div class="professions-select">
+                <h2>Sélectionner les professions</h2>
+                <div class="control-buttons">
+                    <!-- Boutons pour tout sélectionner ou désélectionner -->
+                    <button class="control-button" onclick="selectAll()">Tout sélectionner</button>
+                    <button class="control-button unselect" onclick="unselectAll()">Tout désélectionner</button>
+                </div>
+                <div id="checkboxes">
+                    <!-- Liste des professions avec des cases à cocher -->
+                    {% for index, row in professions.iterrows() %}
+                    <div class="checkbox-group">
+                        <label class="material-checkbox">
+                            <input type="checkbox" 
+                                   value="{{ row['Profession_sante'] }}" 
+                                   checked 
+                                   onchange="updateTable()">
+                            <span class="checkmark"></span>
+                            {{ row['Profession_sante'] }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="results-container">
+                <!-- Tableau pour afficher les résultats des professions -->
+                <table id="professions-table">
+                    <thead>
+                        <tr>
+                            <th>Professions</th>
+                            <th>Effectif</th>
+                            <th>Profession libéral</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lignes du tableau avec les données des professions -->
+                        {% for index, row in professions.iterrows() %}
+                        <tr data-profession="{{ row['Profession_sante'] }}">
+                            <td>{{ row['Profession_sante'] }}</td>
+                            <td>{{ row['effectif'] }}</td>
+                            <td>{{ row['libelle_type_exercice_liberal'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton pour revenir à la page précédente -->
+    <div class="retour-container">
+        <a href="{{ url_for('trie_par_region') }}" class="retour">Retour</a>
+    </div>
+
+    <script>
+        // Met à jour l'affichage du tableau selon les professions sélectionnées
+        function updateTable() {
+            const selectedProfessions = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            
+            const rows = document.querySelectorAll('#professions-table tbody tr');
+            
+            rows.forEach(row => {
+                const profession = row.getAttribute('data-profession');
+                row.style.display = selectedProfessions.includes(profession) ? '' : 'none';
+            });
+
+            // Ajoute un message si aucune profession n'est sélectionnée
+            const tbody = document.querySelector('#professions-table tbody');
+            const noDataMessage = document.querySelector('.no-data');
+            
+            if (selectedProfessions.length === 0) {
+                if (!noDataMessage) {
+                    const message = document.createElement('tr');
+                    message.className = 'no-data';
+                    message.innerHTML = '<td colspan="2">Aucune profession sélectionnée</td>';
+                    tbody.appendChild(message);
+                }
+            } else if (noDataMessage) {
+                noDataMessage.remove();
+            }
+        }
+
+        // Sélectionne toutes les professions
+        function selectAll() {
+            document.querySelectorAll('input[type="checkbox"]')
+                .forEach(cb => cb.checked = true);
+            updateTable();
+        }
+
+        // Désélectionne toutes les professions
+        function unselectAll() {
+            document.querySelectorAll('input[type="checkbox"]')
+                .forEach(cb => cb.checked = false);
+            updateTable();
+        }
+    </script>
+</body>
+</html>

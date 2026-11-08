@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Assurance Maladie - Consultation et Analyse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+</head>
+<body>
+    <!-- En-tête de la page -->
+    <header>
+        <div class="header">
+            <!-- Barre de navigation -->
+            <nav class="nav-bar">
+                <ul>
+                    <!-- Lien vers la page d'accueil -->
+                    <li><a href="{{ url_for('accueil') }}">Accueil</a></li>
+                    <!-- Lien vers la page "A propos" -->
+                    <li><a href="{{ url_for('apropos') }}">A propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container1">
+        <!-- Titre principal de la page -->
+        <h1>Taux des Prescriptions par région</h1>
+        
+        <!-- Formulaire pour sélectionner une année -->
+        <form method="POST">
+            <label for="annee">Choisir une année :</label>
+            <!-- Champ pour entrer l'année -->
+            <input type="number" id="annee" name="annee" min="2010" max="2025" placeholder="Année">
+            <!-- Bouton pour soumettre le formulaire -->
+            <button type="submit">Filtrer</button>
+        </form>
+        
+        {% if annee %}
+            <!-- Affiche l'année sélectionnée si définie -->
+            <h2>Année sélectionnée: {{ annee }}</h2>
+        {% endif %}
+        
+        <!-- Affiche le graphique des prescriptions -->
+        <img src="{{ histogram_image }}" alt="Graphique des prescriptions par région" style="max-width: 100%; height: auto;">
+    </div>
+</body>
+
+</html>

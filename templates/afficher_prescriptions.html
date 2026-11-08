@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Assurance Maladie - Consultation et Analyse</title>
+    <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Icône du site -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+</head>
+<body>
+    <!-- En-tête avec la navigation -->
+    <header>
+        <div class="header">
+            <nav class="nav-bar">
+                <ul>
+                    <!-- Lien vers la page d'accueil -->
+                    <li><a href="{{ url_for('accueil') }}">Accueil</a></li>
+                    <!-- Lien vers la page "À propos" -->
+                    <li><a href="{{ url_for('apropos') }}">À propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteneur pour le filtre de recherche -->
+    <div class="filter-container">
+        <form method="get" action="{{ url_for('afficher_prescriptions') }}">
+            <label for="search">Triez l'affichage en fonction de n'importe quelle donnée :</label>
+            <!-- Champ pour entrer une recherche -->
+            <input type="text" id="search" name="search" placeholder="Rechercher..." value="{{ search or '' }}">
+            <!-- Bouton pour soumettre la recherche -->
+            <button type="submit">Filtrer</button>
+        </form>
+    </div>
+    
+    <!-- Conteneur pour afficher les données sous forme de tableau -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <!-- Lien pour trier les années en ordre croissant ou décroissant -->
+                    <th>
+                        <a href="{{ url_for('afficher_prescriptions', order_annee='asc', annee_min=annee_min, annee_max=annee_max, search=search) }}" class="{{ 'active' if order_annee == 'asc' else '' }}">
+                            Année ↑
+                        </a>
+                        /
+                        <a href="{{ url_for('afficher_prescriptions', order_annee='desc', annee_min=annee_min, annee_max=annee_max, search=search) }}" class="{{ 'active' if order_annee == 'desc' else '' }}">
+                            Année ↓
+                        </a>
+                    </th>
+                    <!-- Autres colonnes du tableau -->
+                    <th>Montant Moyen des Prescriptions (€)</th>
+                    <th>Poste de prescription</th>
+                    <th>
+                        <a href="{{ url_for('afficher_prescriptions')}}">
+                            Nom du Département
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Boucle pour afficher chaque ligne des données -->
+                {% for row in Prescriptions %}
+                    <tr>
+                        <td>{{ row['Annee'] }}</td>
+                        <td>{{ row['montant_moyen_prescription'] }}</td>
+                        <td>{{ row['libelle_poste_prescription'] }}</td>
+                        <td>{{ row['libelle_departement'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Assurance Maladie - Consultation et Analyse</title>
+    <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Icone du site -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/png">
+</head>
+<body>
+    <!-- En-tête de la page -->
+    <header>
+        <div class="container">
+            <!-- Titre principal -->
+            <h1>Bienvenue sur l'Analyse des Données de l'Assurance Maladie</h1>
+            <!-- Bouton d'appel à l'action -->
+            <a href="#" class="btn-shine">Consultez et analysez les données rapidement et facilement.</a>
+        </div>
+
+        <!-- Navigation principale -->
+        <div class="header">
+            <nav class="nav-bar">
+                <ul>
+                    <li><a href="{{ url_for('accueil') }}">Accueil</a></li>
+                    <li><a href="{{ url_for('apropos') }}">À propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <main>
+        <!-- Section avec des cartes cliquables -->
+        <section class="clickable-cards">
+            <!-- Carte pour les prescriptions -->
+            <div class="card">
+                <a href="{{ url_for('afficher_prescriptions') }}">
+                    <div class="card-content">
+                        <h2>Prescriptions</h2>
+                        <p>Voir les prescriptions en détail.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Carte pour l'histogramme -->
+            <div class="card">
+                <a href="{{ url_for('histogramme_prescription') }}">
+                    <div class="card-content">
+                        <h2>Histogramme</h2>
+                        <p>Consultez l'histogramme des données.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Carte pour le tri par région -->
+            <div class="card">
+                <a href="{{ url_for('trie_par_region') }}">
+                    <div class="card-content">
+                        <h2>Trie par région</h2>
+                        <p>Trie une information en fonction d'une région.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Carte pour le graphique par région -->
+            <div class="card">
+                <a href="{{ url_for('graphique_prescriptions_region') }}">
+                    <div class="card-content">
+                        <h2>Graphique Régions</h2>
+                        <p>Visualisez les prescriptions totales par région.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
