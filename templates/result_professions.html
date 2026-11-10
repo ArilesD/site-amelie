@@ -11,7 +11,13 @@
 <body>
     <div class="container">
         <!-- Titre principal affichant le nom de la région -->
-        <h1>Professions dans la région {{ region_name }}</h1>
+        <h1>Professions de santé - {{ region_name }}{% if annee %}, {{ annee }}{% endif %}</h1>
+        {% if professions.empty %}
+            <p>Aucun effectif ne correspond à cette sélection dans la base chargée.</p>
+            {% if demonstration %}
+                <p>La démonstration couvre l’Île-de-France, les Hauts-de-France, Auvergne-Rhône-Alpes et La Réunion.</p>
+            {% endif %}
+        {% else %}
         
         <div class="selection-container">
             <!-- Section pour sélectionner les professions -->
@@ -24,15 +30,15 @@
                 </div>
                 <div id="checkboxes">
                     <!-- Liste des professions avec des cases à cocher -->
-                    {% for index, row in professions.iterrows() %}
+                    {% for nom in noms_professions %}
                     <div class="checkbox-group">
                         <label class="material-checkbox">
                             <input type="checkbox" 
-                                   value="{{ row['Profession_sante'] }}" 
+                                   value="{{ nom }}"
                                    checked 
                                    onchange="updateTable()">
                             <span class="checkmark"></span>
-                            {{ row['Profession_sante'] }}
+                            {{ nom }}
                         </label>
                     </div>
                     {% endfor %}
@@ -46,7 +52,7 @@
                         <tr>
                             <th>Professions</th>
                             <th>Effectif</th>
-                            <th>Profession libéral</th>
+                            <th>Mode d’exercice libéral</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +68,7 @@
                 </table>
             </div>
         </div>
+        {% endif %}
     </div>
 
     <!-- Bouton pour revenir à la page précédente -->
@@ -90,7 +97,7 @@
                 if (!noDataMessage) {
                     const message = document.createElement('tr');
                     message.className = 'no-data';
-                    message.innerHTML = '<td colspan="2">Aucune profession sélectionnée</td>';
+                    message.innerHTML = '<td colspan="3">Aucune profession sélectionnée</td>';
                     tbody.appendChild(message);
                 }
             } else if (noDataMessage) {

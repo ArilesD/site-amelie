@@ -27,8 +27,9 @@
 
     <!-- Conteneur pour le filtre de recherche -->
     <div class="filter-container">
+        <p>La recherche porte sur un aperçu de 200 lignes au maximum.</p>
         <form method="get" action="{{ url_for('afficher_prescriptions') }}">
-            <label for="search">Triez l'affichage en fonction de n'importe quelle donnée :</label>
+            <label for="search">Rechercher dans l’aperçu</label>
             <!-- Champ pour entrer une recherche -->
             <input type="text" id="search" name="search" placeholder="Rechercher..." value="{{ search or '' }}">
             <!-- Bouton pour soumettre la recherche -->
@@ -70,6 +71,8 @@
                         <td>{{ row['libelle_poste_prescription'] }}</td>
                         <td>{{ row['libelle_departement'] }}</td>
                     </tr>
+                {% else %}
+                    <tr><td colspan="4">Aucune prescription ne correspond aux filtres dans cet aperçu.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

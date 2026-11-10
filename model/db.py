@@ -1,12 +1,13 @@
-import os
+from contextlib import closing
+from pathlib import Path
 import pandas as pd
 import sqlite3
 
-
-
-
-DATABASE = "debase_db.sqllite3"  # Nom exact du fichier de la base
-db_path = os.path.join(os.path.dirname(__file__), 'data', DATABASE)  # Base dans 'data'
+ROOT = Path(__file__).resolve().parent.parent
+BASE_COMPLETE = ROOT / "model" / "data" / "debase_db.sqllite3"
+BASE_DEMO = ROOT / "demo" / "amelie-demo.sqlite"
+db_path = BASE_COMPLETE if BASE_COMPLETE.is_file() else BASE_DEMO
+DEMONSTRATION = db_path == BASE_DEMO
 
 #####################################################################
 # FONCTIONS UTILES
@@ -17,7 +18,12 @@ def connect_db():
     Fonction pour se connecter à la base de données.
     Retourne une connexion SQLite.
     """
-    return sqlite3.connect(db_path)
+    return sqlite3.connect(db_path.as_uri() + "?mode=ro", uri=True)
+
+
+def annees_prescriptions():
+    with closing(connect_db()) as conn:
+        return [row[0] for row in conn.execute("SELECT DISTINCT Annee FROM Prescriptions ORDER BY Annee DESC")]
 
 def visualiser_table():
     """
@@ -37,7 +43,7 @@ def visualiser_table():
         Departements d
     ON 
         p.Num_Departement = d.Num_Departement
-    
+    ORDER BY p.Id_Prescription
     LIMIT 200;
     
     """
@@ -57,75 +63,42 @@ def visualiser_table():
 
 
 def comparaison_prescriptions_par_region(annee=None):
-    """
-    Fonction pour comparer les régions selon les prescriptions totales en fonction d'une année.
-    """
-    conn = connect_db()
+    """Utilise les totaux régionaux déjà publiés pour l’ensemble des médecins."""
+    if annee is None:
+        annee = max(annees_prescriptions(), default=None)
     query = """
-    SELECT r.libelle_region AS region, SUM(p.montant_total_prescription) AS prescriptions_totales
+    SELECT r.libelle_region AS region, p.montant_total_prescription_integer AS prescriptions_totales
     FROM Prescriptions p
     JOIN Regions r ON p.Id_Region = r.Id_Region
+    WHERE p.Annee = ?
+      AND p.Num_Departement = 999
+      AND p.Profession_sante = 'Ensemble des médecins'
+      AND p.poste_prescription = 'total'
+      AND r.Id_Region <> 99
+      AND typeof(p.montant_total_prescription_integer) = 'integer'
+    ORDER BY prescriptions_totales, region
     """
-    if annee:
-        query += " WHERE p.Annee = ?"
-    query += " GROUP BY r.libelle_region;"
-    
-    params = (annee,) if annee else ()
-    result = pd.read_sql_query(query, conn, params=params)
-    conn.close()
-    return result
-
-
-def get_professions_by_region(region_id):
-    """
-    Récupérer les professions et leur effectif dans une région donnée.
-    """
-    conn = connect_db()
-    query = """
-    SELECT 
-        ps.Profession_sante AS Profession_sante, 
-        SUM(d.effectif) AS effectif
-    FROM 
-        Demographie d
-    INNER JOIN 
-        ProfessionsSante ps ON d.Profession_sante = ps.Profession_sante
-    INNER JOIN 
-        Regions r ON d.Id_Region = r.Id_Region
-    WHERE 
-        r.libelle_region = ?
-    GROUP BY 
-        ps.Profession_sante
-    ORDER BY 
-        effectif DESC;
-    """
-    result = pd.read_sql_query(query, conn, params=(region_id,))
-    conn.close()
-    return result
-
-
-
+    with closing(connect_db()) as conn:
+        return pd.read_sql_query(query, conn, params=(annee,))
 
 
 def montant_moyen_prescriptions(annee=None):
-    """
-    Fonction pour évaluer le montant moyen des prescriptions par poste de prescription,
-    avec option de filtrage par année.
-    """
-    conn = connect_db()
-    
-    # Si une année est spécifiée, ajuster la requête pour filtrer par année
+    """Récupère les montants moyens nationaux publiés par poste de prescription."""
+    if annee is None:
+        annee = max(annees_prescriptions(), default=None)
     query = """
-    SELECT libelle_poste_prescription, AVG(montant_moyen_prescription_integer) AS montant_moyen, Annee
+    SELECT libelle_poste_prescription, montant_moyen_prescription_integer AS montant_moyen, Annee
     FROM Prescriptions
+    WHERE Annee = ?
+      AND Id_Region = 99
+      AND Num_Departement = 999
+      AND Profession_sante = 'Ensemble des médecins'
+      AND poste_prescription <> 'total'
+      AND typeof(montant_moyen_prescription_integer) = 'integer'
+    ORDER BY poste_prescription
     """
-    if annee:
-        query += f" WHERE Annee = {annee}"
-    
-    query += " GROUP BY libelle_poste_prescription;"
-    
-    result = pd.read_sql_query(query, conn)
-    conn.close()
-    return result
+    with closing(connect_db()) as conn:
+        return pd.read_sql_query(query, conn, params=(annee,))
 
 
 
@@ -150,21 +123,23 @@ def get_profession_names():
     return professions
 
 def get_professions_by_region(id_region):
-    """
-    Fonction pour récupérer les professions présentes dans une région donnée.
-    """
-    conn = connect_db()
+    """Récupère les effectifs régionaux par profession et mode d’exercice."""
     query = """
-    SELECT Profession_sante, SUM(effectif) AS effectif, libelle_type_exercice_liberal
+    SELECT Profession_sante, effectif, libelle_type_exercice_liberal, Annee
     FROM Demographie
-    WHERE Id_Region = ?
-    GROUP BY Profession_sante
-    ORDER BY effectif DESC
-    LIMIT 20;
+    WHERE Id_Region = :region
+      AND Num_Departement = 999
+      AND Annee = (
+          SELECT MAX(Annee) FROM Demographie
+          WHERE Id_Region = :region AND Num_Departement = 999
+      )
+      AND typeof(effectif) = 'integer'
+    ORDER BY effectif DESC, Profession_sante, libelle_type_exercice_liberal
     """
-    result = pd.read_sql_query(query, conn, params=(id_region,))
-    conn.close()
-    return result
+    with closing(connect_db()) as conn:
+        return pd.read_sql_query(query, conn, params={"region": id_region})
+
+
 def get_region_name(id_region):
     """Retourne le nom de la région à partir de son ID"""
     region_names = {

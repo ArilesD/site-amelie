@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request
 import model.db as db  
 import matplotlib
-from utils.graphiques import graphique, graphique_camembert_prescriptions
 
+matplotlib.use('Agg')
+
+from utils.graphiques import graphique, graphique_montants_region
 
 app = Flask(__name__)
-matplotlib.use('Agg')
 
 @app.route('/')
 def accueil():
     # Affiche la page d'accueil
-    return render_template('index.html')
+    return render_template('index.html', demonstration=db.DEMONSTRATION)
 
 @app.route('/trie_par_region', methods=['GET', 'POST'])
 def trie_par_region():
@@ -24,9 +25,10 @@ def trie_par_region():
         # Récupère les professions et le nom de la région depuis la base de données
         professions = db.get_professions_by_region(region_id)
         region_name = db.get_region_name(region_id)
+        annee = int(professions['Annee'].iloc[0]) if not professions.empty else None
         
         # Applique les filtres si les données existent
-        if professions is not None and not professions.empty:
+        if not professions.empty:
             if profession:
                 professions = professions[professions['Profession_sante'] == profession]
             if effectif_min is not None:
@@ -37,12 +39,13 @@ def trie_par_region():
         # Retourne la page avec les résultats filtrés
         return render_template('result_professions.html',
                                professions=professions,
+                               noms_professions=professions['Profession_sante'].unique(),
                                region_name=region_name,
-                               region_id=region_id,
-                               selected_profession=profession)
+                               annee=annee,
+                               demonstration=db.DEMONSTRATION)
     
     # Affiche le formulaire de recherche
-    return render_template('trie_par_region.html')
+    return render_template('trie_par_region.html', demonstration=db.DEMONSTRATION)
 
 @app.route('/apropos')
 def apropos():
@@ -57,7 +60,7 @@ def afficher_prescriptions():
     search_query = request.args.get('search', '').lower()
     order_annee = request.args.get('order_annee', default='asc', type=str)
 
-    # Récupère toutes les données des prescriptions
+    # Récupère un aperçu des prescriptions
     Prescriptions = db.visualiser_table()
 
     # Convertit les colonnes nécessaires
@@ -71,7 +74,7 @@ def afficher_prescriptions():
         Prescriptions = Prescriptions[Prescriptions['Annee'] <= annee_max]
 
     # Recherche dans toutes les colonnes
-    if search_query:
+    if search_query and not Prescriptions.empty:
         Prescriptions = Prescriptions[Prescriptions.apply(
             lambda row: any(search_query in str(val).lower() for val in row.astype(str).values), axis=1)
         ]
@@ -99,29 +102,27 @@ def afficher_prescriptions():
 
 @app.route('/histogramme_prescription', methods=['GET', 'POST'])
 def histogramme_prescription():
-    # Récupère l'année du formulaire (ou None si non renseignée)
-    annee = request.form.get('annee', type=int)
-    if not annee:
-        annee = None
-
-    # Génère l'image de l'histogramme
-    histogram_image = graphique(annee)
-    
-    # Affiche la page avec le graphique
-    return render_template('histogramme_prescription.html', histogram_image=histogram_image)
+    annees = db.annees_prescriptions()
+    annee = request.form.get('annee', default=annees[0] if annees else None, type=int)
+    return render_template(
+        'histogramme_prescription.html',
+        histogram_image=graphique(annee),
+        annee=annee,
+        annees=annees,
+    )
 
 @app.route('/graphique_prescriptions_region', methods=['GET', 'POST'])
 def graphique_prescriptions_region():
-    # Récupère l'année depuis le formulaire ou utilise une valeur par défaut
-    annee = request.form.get('annee', type=int)
-    if not annee:
-        annee = 2010
-
-    # Génère le graphique en camembert
-    histogram_image = graphique_camembert_prescriptions(annee)
-    
-    # Affiche la page avec le graphique
-    return render_template('graphique_prescriptions_region.html', histogram_image=histogram_image, annee=annee)
+    annees = db.annees_prescriptions()
+    annee = request.form.get('annee', default=annees[0] if annees else None, type=int)
+    histogram_image = graphique_montants_region(annee)
+    return render_template(
+        'graphique_prescriptions_region.html',
+        histogram_image=histogram_image,
+        annee=annee,
+        annees=annees,
+        demonstration=db.DEMONSTRATION,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

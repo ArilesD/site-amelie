@@ -26,24 +26,30 @@
     
     <div class="container1">
         <!-- Titre principal de la page -->
-        <h1>Taux des Prescriptions par région</h1>
+        <h1>Montants des prescriptions par région</h1>
+        <p>Ensemble des médecins, tous postes de prescription confondus.</p>
+        {% if demonstration %}
+        <p>Extrait de démonstration - quatre régions de la base du projet.</p>
+        {% endif %}
         
         <!-- Formulaire pour sélectionner une année -->
         <form method="POST">
-            <label for="annee">Choisir une année :</label>
+            <label for="annee">Choisir une année</label>
             <!-- Champ pour entrer l'année -->
-            <input type="number" id="annee" name="annee" min="2010" max="2025" placeholder="Année">
+            <select id="annee" name="annee">
+                {% for option in annees %}
+                <option value="{{ option }}"{% if option == annee %} selected{% endif %}>{{ option }}</option>
+                {% endfor %}
+            </select>
             <!-- Bouton pour soumettre le formulaire -->
             <button type="submit">Filtrer</button>
         </form>
         
-        {% if annee %}
-            <!-- Affiche l'année sélectionnée si définie -->
-            <h2>Année sélectionnée: {{ annee }}</h2>
+        {% if histogram_image %}
+            <img src="{{ histogram_image }}" alt="Montants des prescriptions par région en {{ annee }}">
+        {% else %}
+            <p>Aucun montant publié pour cette année dans la base chargée.</p>
         {% endif %}
-        
-        <!-- Affiche le graphique des prescriptions -->
-        <img src="{{ histogram_image }}" alt="Graphique des prescriptions par région" style="max-width: 100%; height: auto;">
     </div>
 </body>
 

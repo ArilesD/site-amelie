@@ -33,6 +33,9 @@
 
     <!-- Contenu principal -->
     <main>
+        {% if demonstration %}
+        <p style="text-align: center;">Démonstration avec un extrait des données agrégées de 2022 et 2023.</p>
+        {% endif %}
         <!-- Section avec des cartes cliquables -->
         <section class="clickable-cards">
             <!-- Carte pour les prescriptions -->
@@ -40,7 +43,7 @@
                 <a href="{{ url_for('afficher_prescriptions') }}">
                     <div class="card-content">
                         <h2>Prescriptions</h2>
-                        <p>Voir les prescriptions en détail.</p>
+                        <p>Recherchez des prescriptions dans le tableau.</p>
                     </div>
                 </a>
             </div>
@@ -49,8 +52,8 @@
             <div class="card">
                 <a href="{{ url_for('histogramme_prescription') }}">
                     <div class="card-content">
-                        <h2>Histogramme</h2>
-                        <p>Consultez l'histogramme des données.</p>
+                        <h2>Montants moyens en France</h2>
+                        <p>Comparez les postes de prescription par année.</p>
                     </div>
                 </a>
             </div>
@@ -59,8 +62,8 @@
             <div class="card">
                 <a href="{{ url_for('trie_par_region') }}">
                     <div class="card-content">
-                        <h2>Trie par région</h2>
-                        <p>Trie une information en fonction d'une région.</p>
+                        <h2>Effectifs par région</h2>
+                        <p>Explorez les professions de santé sur la carte.</p>
                     </div>
                 </a>
             </div>
@@ -69,7 +72,7 @@
             <div class="card">
                 <a href="{{ url_for('graphique_prescriptions_region') }}">
                     <div class="card-content">
-                        <h2>Graphique Régions</h2>
+                        <h2>Montants des prescriptions par région</h2>
                         <p>Visualisez les prescriptions totales par région.</p>
                     </div>
                 </a>
