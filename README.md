@@ -1,5 +1,17 @@
 # Ameli - Application web d’exploration des données
 
+## Télécharger et lancer
+
+1. [Télécharge le ZIP complet](https://github.com/ArilesD/site-amelie/archive/refs/heads/main.zip).
+2. Dans l’Explorateur Windows, fais **Extraire tout**, puis ouvre le dossier extrait.
+3. Installe [Python 3.14](https://www.python.org/downloads/) si besoin, en cochant **Add python.exe to PATH**. Double-clique ensuite sur **LANCER.cmd**.
+
+Le lancement extrait automatiquement la base complète conservée dans l’archive du projet, puis ouvre le graphique régional. Alterne entre 2022 et 2023 pour comparer les montants.
+
+Garde la fenêtre de lancement ouverte pendant l’utilisation. Appuie sur **Entrée** dans cette fenêtre pour arrêter le projet. La première préparation des applications Python installe les bibliothèques depuis Internet. Les ouvertures suivantes réutilisent l’installation du dossier.
+
+Sous macOS ou Linux avec Python 3.12 à 3.14, ouvre un terminal dans le dossier extrait et exécute **python3 lancer.py**.
+
 Projet universitaire réalisé en équipe. Cette application Flask prolonge la [conception de la base Ameli](https://github.com/ArilesD/database-amelie). Elle permet d’explorer des données agrégées de l’Assurance maladie à partir d’une base SQLite.
 
 - Filtrer les effectifs de professions de santé par région et profession.
