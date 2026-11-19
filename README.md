@@ -1,5 +1,21 @@
 # Ameli - Application web d’exploration des données
 
+Projet universitaire réalisé en équipe. Cette application Flask prolonge la [conception de la base Ameli](https://github.com/ArilesD/database-amelie). Elle permet d’explorer des données agrégées de l’Assurance maladie à partir d’une base SQLite.
+
+- Filtrer les effectifs de professions de santé par région et profession.
+- Rechercher des prescriptions dans un aperçu de 200 lignes au maximum et les trier par année.
+- Visualiser le montant des prescriptions à l’aide de graphiques Matplotlib.
+
+Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Les requêtes des graphiques et des effectifs utilisent les agrégats publiés au bon niveau.
+
+## Aperçu du projet
+
+![Graphique des prescriptions : passage de 2023 à 2022 sur la base complète du projet.](docs/presentation.gif)
+
+Graphique des prescriptions : passage de 2023 à 2022 sur la base complète du projet.
+
+[Voir la vidéo en grand format](docs/presentation.mp4) · [Mon parcours et mes autres projets](https://github.com/ArilesD)
+
 ## Télécharger et lancer
 
 1. [Télécharge le ZIP complet](https://github.com/ArilesD/site-amelie/archive/refs/heads/main.zip).
@@ -12,13 +28,6 @@ Garde la fenêtre de lancement ouverte pendant l’utilisation. Appuie sur **Ent
 
 Sous macOS ou Linux avec Python 3.12 à 3.14, ouvre un terminal dans le dossier extrait et exécute **python3 lancer.py**.
 
-Projet universitaire réalisé en équipe. Cette application Flask prolonge la [conception de la base Ameli](https://github.com/ArilesD/database-amelie). Elle permet d’explorer des données agrégées de l’Assurance maladie à partir d’une base SQLite.
-
-- Filtrer les effectifs de professions de santé par région et profession.
-- Rechercher des prescriptions dans un aperçu de 200 lignes au maximum et les trier par année.
-- Visualiser le montant des prescriptions à l’aide de graphiques Matplotlib.
-
-Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Les requêtes des graphiques et des effectifs utilisent les agrégats publiés au bon niveau.
 
 ## Explorer les données
 
