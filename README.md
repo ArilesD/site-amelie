@@ -18,28 +18,32 @@ Projet universitaire réalisé en équipe. Cette application Flask prolonge la [
 - Rechercher des prescriptions dans un aperçu de 200 lignes au maximum et les trier par année.
 - Visualiser le montant des prescriptions à l’aide de graphiques Matplotlib.
 
-Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Pour le portfolio, une base légère a été préparée à partir de la base d’origine et les requêtes des graphiques et des effectifs ont été précisées pour utiliser les agrégats publiés au bon niveau.
+Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Les requêtes des graphiques et des effectifs utilisent les agrégats publiés au bon niveau.
 
-## Essayer la démonstration
+## Explorer les données
 
-La base incluse dans `demo/` pèse **68 Kio**. Elle couvre les prescriptions de 2022 et 2023 ainsi que les effectifs de 2023 pour quatre régions de la base du projet. Le graphique national utilise les montants moyens déjà calculés pour la France entière. La carte des effectifs distingue les exercices libéraux exclusif et mixte.
+La base complète du projet est fournie sous forme compressée dans le dossier model/data. L’application la décompresse automatiquement à la première ouverture. Elle occupe environ 278 Mo après extraction.
 
-![Montants des prescriptions en 2023 pour les quatre régions de la démonstration](docs/prescriptions-regions-2023.png)
+![Montants des prescriptions par région en 2023](docs/prescriptions-regions-2023.png)
 
-Avec Python 3.12, crée un environnement virtuel à la racine du dépôt.
+Depuis l’accueil, ouvre **Montants des prescriptions par région** et alterne entre 2022 et 2023. La carte des effectifs distingue les exercices libéraux exclusif et mixte.
+
+### Lancement depuis le code
+
+Avec Python 3.12 à 3.14, crée un environnement virtuel à la racine du dépôt.
 
 ```sh
 python -m venv .venv
 ```
 
-Active-le avec `.\.venv\Scripts\Activate.ps1` sous Windows PowerShell ou `source .venv/bin/activate` sous macOS et Linux. Installe ensuite les dépendances et lance le site.
+Active cet environnement puis exécute les commandes suivantes.
 
 ```sh
 python -m pip install -r requirements.txt
 python -m flask --app app run
 ```
 
-Depuis [l’accueil de la démonstration](http://127.0.0.1:5000), ouvre « Montants des prescriptions par région » et alterne entre 2022 et 2023. Le site choisit l’extrait automatiquement quand la base complète est absente.
+Ouvre [l’application locale](http://127.0.0.1:5000). La préparation de la base est automatique.
 
 ## De la requête SQL au graphique
 
@@ -59,20 +63,7 @@ WHERE p.Annee = 2023
 ORDER BY montant_euros DESC
 ```
 
-Dans l’extrait, la requête donne **7 814 970 581 €** pour l’Île-de-France en 2023. Le graphique affiche le même résultat en millions d’euros.
-
-Pour régénérer l’extrait à partir de la base extraite, exécute `python demo/creer_extrait.py model/data/debase_db.sqllite3 chemin/vers/nouvel-extrait.sqlite`. Les montants et les effectifs sont conservés tels qu’ils figurent dans la base du projet.
-
-## Utiliser la base complète
-
-Une fois les dépendances installées, prépare la base et lance Flask.
-
-```bash
-python prepare_data.py
-python -m flask --app app run
-```
-
-Ouvre [http://127.0.0.1:5000](http://127.0.0.1:5000). La préparation extrait la base SQLite d’environ 278 Mo depuis `site-amelie.zip`, disponible dans le [dépôt GitHub](https://github.com/ArilesD/site-amelie). Si la base complète est présente, le site l’utilise en priorité.
+La requête donne **7 814 970 581 €** pour l’Île-de-France en 2023. Le graphique affiche le même résultat en millions d’euros.
 
 ## Lire le code
 
@@ -85,4 +76,4 @@ Ouvre [http://127.0.0.1:5000](http://127.0.0.1:5000). La préparation extrait la
 
 ## Sources et licence des données
 
-L’extrait SQLite est dérivé de la base archivée par l’équipe, à partir des données agrégées de la Caisse nationale de l’Assurance Maladie (Cnam), diffusées par Data ameli. Les données de l’extrait sont mises à disposition sous la licence [Open Database License 1.0](https://opendatacommons.org/licenses/odbl/1-0/). [Montants des prescriptions](https://data.ameli.fr/explore/assets/prescriptions/) · [Effectifs par mode d’exercice](https://data.ameli.fr/explore/dataset/demographie-exercices-liberaux/) · [Conditions de réutilisation](https://data.ameli.fr/terms/terms-and-conditions/)
+La base archivée par l’équipe utilise les données agrégées de la Caisse nationale de l’Assurance Maladie (Cnam), diffusées par Data ameli sous licence [Open Database License 1.0](https://opendatacommons.org/licenses/odbl/1-0/). [Montants des prescriptions](https://data.ameli.fr/explore/assets/prescriptions/) · [Effectifs par mode d’exercice](https://data.ameli.fr/explore/dataset/demographie-exercices-liberaux/) · [Conditions de réutilisation](https://data.ameli.fr/terms/terms-and-conditions/)

@@ -14,9 +14,6 @@
         <h1>Professions de santé - {{ region_name }}{% if annee %}, {{ annee }}{% endif %}</h1>
         {% if professions.empty %}
             <p>Aucun effectif ne correspond à cette sélection dans la base chargée.</p>
-            {% if demonstration %}
-                <p>La démonstration couvre l’Île-de-France, les Hauts-de-France, Auvergne-Rhône-Alpes et La Réunion.</p>
-            {% endif %}
         {% else %}
         
         <div class="selection-container">

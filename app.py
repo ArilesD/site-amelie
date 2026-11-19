@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/')
 def accueil():
     # Affiche la page d'accueil
-    return render_template('index.html', demonstration=db.DEMONSTRATION)
+    return render_template('index.html')
 
 @app.route('/trie_par_region', methods=['GET', 'POST'])
 def trie_par_region():
@@ -41,11 +41,10 @@ def trie_par_region():
                                professions=professions,
                                noms_professions=professions['Profession_sante'].unique(),
                                region_name=region_name,
-                               annee=annee,
-                               demonstration=db.DEMONSTRATION)
+                               annee=annee)
     
     # Affiche le formulaire de recherche
-    return render_template('trie_par_region.html', demonstration=db.DEMONSTRATION)
+    return render_template('trie_par_region.html')
 
 @app.route('/apropos')
 def apropos():
@@ -121,7 +120,6 @@ def graphique_prescriptions_region():
         histogram_image=histogram_image,
         annee=annee,
         annees=annees,
-        demonstration=db.DEMONSTRATION,
     )
 
 if __name__ == "__main__":

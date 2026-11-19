@@ -2,12 +2,12 @@ from contextlib import closing
 from pathlib import Path
 import pandas as pd
 import sqlite3
+from prepare_data import main as preparer_base
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE_COMPLETE = ROOT / "model" / "data" / "debase_db.sqllite3"
-BASE_DEMO = ROOT / "demo" / "amelie-demo.sqlite"
-db_path = BASE_COMPLETE if BASE_COMPLETE.is_file() else BASE_DEMO
-DEMONSTRATION = db_path == BASE_DEMO
+preparer_base()
+db_path = BASE_COMPLETE
 
 #####################################################################
 # FONCTIONS UTILES
