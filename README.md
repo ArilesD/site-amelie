@@ -1,58 +1,59 @@
-# Ameli - Application web d’exploration des données
+# Ameli - Exploration des données de l’Assurance maladie
 
-Projet universitaire réalisé en équipe. Cette application Flask prolonge la [conception de la base Ameli](https://github.com/ArilesD/database-amelie). Elle permet d’explorer des données agrégées de l’Assurance maladie à partir d’une base SQLite.
+Projet universitaire réalisé en équipe. L’application permet de consulter des données agrégées de l’Assurance maladie à partir d’une base SQLite.
 
 - Filtrer les effectifs de professions de santé par région et profession.
-- Rechercher des prescriptions dans un aperçu de 200 lignes au maximum et les trier par année.
-- Visualiser le montant des prescriptions à l’aide de graphiques Matplotlib.
+- Rechercher et trier les prescriptions dans un aperçu de 200 lignes au maximum.
+- Comparer les montants des prescriptions par région et par année.
 
-Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Les requêtes des graphiques et des effectifs utilisent les agrégats publiés au bon niveau.
+**Outils :** Python, Flask, SQLite, pandas et Matplotlib.
 
 ## Aperçu du projet
 
-![Graphique des prescriptions : passage de 2023 à 2022 sur la base complète du projet.](docs/presentation.gif)
+![Comparaison des montants des prescriptions par région en 2023 et 2022.](docs/presentation.gif)
 
-Graphique des prescriptions : passage de 2023 à 2022 sur la base complète du projet.
+L’aperçu utilise la base complète du projet.
 
-[Voir la capture en grand format](docs/apercu.png) · [Voir la vidéo en grand format](docs/presentation.mp4) · [Mon parcours et mes autres projets](https://github.com/ArilesD)
+[Image en grand format](docs/apercu.png) · [Voir la vidéo](docs/presentation.mp4)
 
 ## Télécharger et lancer
 
-1. [Télécharge le ZIP complet](https://github.com/ArilesD/site-amelie/archive/refs/heads/main.zip).
-2. Dans l’Explorateur de fichiers, fais **Extraire tout**, puis ouvre le dossier extrait.
-3. Installe [Python 3.14](https://www.python.org/downloads/) si besoin, en cochant **Add python.exe to PATH**. Double-clique ensuite sur **LANCER.cmd**.
+1. Installe [Python 3.14](https://www.python.org/downloads/) si besoin, en cochant **Add python.exe to PATH**.
+2. [Télécharge le projet en ZIP](https://github.com/ArilesD/site-amelie/archive/refs/heads/main.zip), fais **Extraire tout**, puis ouvre le dossier extrait.
+3. Double-clique sur **LANCER.cmd**.
 
-Le lancement extrait automatiquement la base complète conservée dans l’archive du projet, puis ouvre le graphique régional. Alterne entre 2022 et 2023 pour comparer les montants.
+Le premier lancement nécessite Internet pour installer les bibliothèques. Garde la fenêtre de lancement ouverte pendant l’utilisation et appuie sur **Entrée** dans cette fenêtre pour arrêter le projet.
 
-Garde la fenêtre de lancement ouverte pendant l’utilisation. Appuie sur **Entrée** dans cette fenêtre pour arrêter le projet. La première préparation des applications Python installe les bibliothèques depuis Internet. Les ouvertures suivantes réutilisent l’installation du dossier.
+La base est décompressée automatiquement au premier lancement et occupe environ 278 Mo. Le site s’ouvre sur le graphique régional : alterne entre **2022** et **2023** pour comparer les montants.
 
+## Comprendre les fichiers
 
-## Explorer les données
+| Fichier ou dossier | Rôle |
+| --- | --- |
+| `LANCER.cmd` et `lancer.py` | Préparent et démarrent l’application. |
+| `app.py` | Pages et filtres de l’application. |
+| `model/` | Base de données et requêtes SQL. |
+| `utils/graphiques.py` | Création des graphiques. |
+| `templates/` et `static/` | Pages HTML et styles. |
 
-La base complète du projet est fournie sous forme compressée dans le dossier model/data. L’application la décompresse automatiquement à la première ouverture. Elle occupe environ 278 Mo après extraction.
+Le [rapport universitaire](Rapport.pdf) et le [dépôt de conception de la base](https://github.com/ArilesD/database-amelie) présentent le travail de l’équipe.
 
-![Montants des prescriptions par région en 2023](docs/prescriptions-regions-2023.png)
+<details>
+<summary>Détails des requêtes et lancement manuel</summary>
 
-Depuis l’accueil, ouvre **Montants des prescriptions par région** et alterne entre 2022 et 2023. La carte des effectifs distingue les exercices libéraux exclusif et mixte.
+### Lancer depuis le code
 
-### Lancement depuis le code
+Depuis le dossier du projet, ouvre PowerShell et utilise Python 3.12 à 3.14 :
 
-Avec Python 3.12 à 3.14, crée un environnement virtuel à la racine du dépôt.
-
-```sh
+```powershell
 python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m flask --app app run
 ```
 
-Active cet environnement puis exécute les commandes suivantes.
+Ouvre [l’application locale](http://127.0.0.1:5000).
 
-```sh
-python -m pip install -r requirements.txt
-python -m flask --app app run
-```
-
-Ouvre [l’application locale](http://127.0.0.1:5000). La préparation de la base est automatique.
-
-## De la requête SQL au graphique
+### De la requête SQL au graphique
 
 Pour comparer les régions sur un même périmètre, le graphique utilise la ligne du total régional déjà calculée pour l’ensemble des médecins et tous les postes de prescription. Le code départemental `999` identifie le niveau agrégé et le code régional `99` identifie la France entière.
 
@@ -72,14 +73,7 @@ ORDER BY montant_euros DESC
 
 La requête donne **7 814 970 581 €** pour l’Île-de-France en 2023. Le graphique affiche le même résultat en millions d’euros.
 
-## Lire le code
-
-| Fichier ou dossier | Rôle |
-| --- | --- |
-| `app.py` | Pages Flask, filtres et restitution des résultats. |
-| `model/db.py` | Requêtes SQLite et chargement des résultats avec pandas. |
-| `utils/graphiques.py` | Graphiques construits à partir des requêtes. |
-| `templates/` et `static/` | Pages HTML et styles. |
+</details>
 
 ## Sources et licence des données
 
