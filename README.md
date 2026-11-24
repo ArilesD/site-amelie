@@ -14,7 +14,7 @@ Le [rapport universitaire](Rapport.pdf) présente le travail de l’équipe. Les
 
 Graphique des prescriptions : passage de 2023 à 2022 sur la base complète du projet.
 
-[Voir la vidéo en grand format](docs/presentation.mp4) · [Mon parcours et mes autres projets](https://github.com/ArilesD)
+[Voir la capture en grand format](docs/apercu.png) · [Voir la vidéo en grand format](docs/presentation.mp4) · [Mon parcours et mes autres projets](https://github.com/ArilesD)
 
 ## Télécharger et lancer
 
