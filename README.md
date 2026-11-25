@@ -24,7 +24,7 @@ L’aperçu utilise la base complète du projet.
 
 Le premier lancement nécessite Internet pour installer les bibliothèques. Garde la fenêtre de lancement ouverte pendant l’utilisation et appuie sur **Entrée** dans cette fenêtre pour arrêter le projet.
 
-La base est décompressée automatiquement au premier lancement et occupe environ 278 Mo. Le site s’ouvre sur le graphique régional : alterne entre **2022** et **2023** pour comparer les montants.
+La base est décompressée automatiquement au premier lancement. Le site s’ouvre sur le graphique régional : alterne entre **2022** et **2023** pour comparer les montants.
 
 ## Comprendre les fichiers
 
@@ -38,6 +38,4 @@ La base est décompressée automatiquement au premier lancement et occupe enviro
 
 Le [rapport universitaire](Rapport.pdf) et le [dépôt de conception de la base](https://github.com/ArilesD/database-amelie) présentent le travail de l’équipe.
 
-## Sources et licence des données
-
-La base archivée par l’équipe utilise les données agrégées de la Caisse nationale de l’Assurance Maladie (Cnam), diffusées par Data ameli sous licence [Open Database License 1.0](https://opendatacommons.org/licenses/odbl/1-0/). [Montants des prescriptions](https://data.ameli.fr/explore/assets/prescriptions/) · [Effectifs par mode d’exercice](https://data.ameli.fr/explore/dataset/demographie-exercices-liberaux/) · [Conditions de réutilisation](https://data.ameli.fr/terms/terms-and-conditions/)
+Données : [Cnam - Data ameli](https://data.ameli.fr/), sous licence [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
