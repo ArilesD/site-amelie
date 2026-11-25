@@ -14,8 +14,6 @@ Projet universitaire réalisé en équipe. L’application permet de consulter d
 
 L’aperçu utilise la base complète du projet.
 
-[Image en grand format](docs/apercu.png) · [Voir la vidéo](docs/presentation.mp4)
-
 ## Télécharger et lancer
 
 1. Installe [Python 3.14](https://www.python.org/downloads/) si besoin, en cochant **Add python.exe to PATH**.
